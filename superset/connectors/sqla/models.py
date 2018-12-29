@@ -819,7 +819,6 @@ class SqlaTable(Model, BaseDatasource):
             raise Exception(_(
                 "Table [{}] doesn't seem to exist in the specified database, "
                 "couldn't fetch column information").format(self.table_name))
-        self.__setattr__('description', table.comment)
         M = SqlMetric  # noqa
         metrics = []
         any_date_col = None
@@ -849,8 +848,8 @@ class SqlaTable(Model, BaseDatasource):
             dbcol = dbcols.get(col.name, None)
             if not dbcol:
                 dbcol = TableColumn(column_name=col.name, type=datatype)
-                dbcol.groupby = dbcol.is_string or dbcol.is_num
-                dbcol.filterable = dbcol.is_string or dbcol.is_num
+                dbcol.groupby = True
+                dbcol.filterable = True
                 dbcol.sum = dbcol.is_num
                 dbcol.avg = dbcol.is_num
                 dbcol.is_dttm = dbcol.is_time
