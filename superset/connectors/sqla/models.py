@@ -835,6 +835,12 @@ class SqlaTable(Model, BaseDatasource):
         for col in table.columns:
             try:
                 datatype = col.type.compile(dialect=db_dialect).upper()
+                if col.name.endswith('_id') or col.name.endswith('_cnt') or col.name.endswith('_sum'):
+                    datatype = 'BIGINT'
+                if col.name.endswith('_at') or col.name.endswith('_time'):
+                    datatype = 'TIMESTAMP'
+                if col.name == 'date':
+                    datatype = 'DATE'
             except Exception as e:
                 datatype = 'UNKNOWN'
                 logging.error(
@@ -844,12 +850,21 @@ class SqlaTable(Model, BaseDatasource):
             if not dbcol:
                 dbcol = TableColumn(column_name=col.name, type=datatype)
                 dbcol.groupby = dbcol.is_string
-                dbcol.filterable = dbcol.is_string
+                dbcol.filterable = dbcol.is_string or dbcol.is_num
                 dbcol.sum = dbcol.is_num
                 dbcol.avg = dbcol.is_num
                 dbcol.is_dttm = dbcol.is_time
             else:
                 dbcol.type = datatype
+            if dbcol.column_name == 'date':
+                dbcol.groupby = True
+                dbcol.filterable = True
+                dbcol.python_date_format = '%Y-%m-%d'
+                dbcol.database_expression = "TO_DATE('{}', 'yyyy-MM-dd')"
+            if dbcol.column_name == 'timestamp':
+                dbcol.filterable = True
+                dbcol.python_date_format = '%Y-%m-%d %H:%M:%S'
+                dbcol.database_expression = "TO_DATE('{}', 'yyyy-MM-dd HH:mm:ss')"
             self.columns.append(dbcol)
             if not any_date_col and dbcol.is_time:
                 any_date_col = col.name
