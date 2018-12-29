@@ -849,7 +849,7 @@ class SqlaTable(Model, BaseDatasource):
             dbcol = dbcols.get(col.name, None)
             if not dbcol:
                 dbcol = TableColumn(column_name=col.name, type=datatype)
-                dbcol.groupby = dbcol.is_string
+                dbcol.groupby = dbcol.is_string or dbcol.is_num
                 dbcol.filterable = dbcol.is_string or dbcol.is_num
                 dbcol.sum = dbcol.is_num
                 dbcol.avg = dbcol.is_num
