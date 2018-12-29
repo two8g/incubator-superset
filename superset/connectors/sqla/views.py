@@ -155,7 +155,7 @@ class TableModelView(DatasourceModelView, DeleteMixin, YamlExportMixin):  # noqa
     edit_title = _('Edit Table')
 
     list_columns = [
-        'link', 'database_name',
+        'link', 'description', 'database_name',
         'changed_by_', 'modified']
     order_columns = ['modified']
     add_columns = ['database', 'schema', 'table_name']

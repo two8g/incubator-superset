@@ -819,7 +819,7 @@ class SqlaTable(Model, BaseDatasource):
             raise Exception(_(
                 "Table [{}] doesn't seem to exist in the specified database, "
                 "couldn't fetch column information").format(self.table_name))
-
+        self.__setattr__('description', table.comment)
         M = SqlMetric  # noqa
         metrics = []
         any_date_col = None
@@ -865,6 +865,8 @@ class SqlaTable(Model, BaseDatasource):
                 dbcol.filterable = True
                 dbcol.python_date_format = '%Y-%m-%d %H:%M:%S'
                 dbcol.database_expression = "TO_DATE('{}', 'yyyy-MM-dd HH:mm:ss')"
+            if col.comment:
+                dbcol.verbose_name = col.comment
             self.columns.append(dbcol)
             if not any_date_col and dbcol.is_time:
                 any_date_col = col.name
