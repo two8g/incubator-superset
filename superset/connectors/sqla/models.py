@@ -819,7 +819,7 @@ class SqlaTable(Model, BaseDatasource):
             raise Exception(_(
                 "Table [{}] doesn't seem to exist in the specified database, "
                 "couldn't fetch column information").format(self.table_name))
-        self.description = table.comment
+        self.__setattr__('description_markeddown', table.comment)
         M = SqlMetric  # noqa
         metrics = []
         any_date_col = None
