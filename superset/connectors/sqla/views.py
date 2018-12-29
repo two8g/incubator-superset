@@ -155,7 +155,7 @@ class TableModelView(DatasourceModelView, DeleteMixin, YamlExportMixin):  # noqa
     edit_title = _('Edit Table')
 
     list_columns = [
-        'link', 'description', 'database_name',
+        'link', 'description_markeddown', 'database_name',
         'changed_by_', 'modified']
     order_columns = ['modified']
     add_columns = ['database', 'schema', 'table_name']
@@ -236,6 +236,7 @@ class TableModelView(DatasourceModelView, DeleteMixin, YamlExportMixin):  # noqa
         'owner': _('Owner'),
         'main_dttm_col': _('Main Datetime Column'),
         'description': _('Description'),
+        'description_markeddown': _('Description'),
         'is_sqllab_view': _('SQL Lab View'),
         'template_params': _('Template parameters'),
         'modified': _('Modified'),
