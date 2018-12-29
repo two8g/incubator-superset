@@ -38,6 +38,7 @@ services:
       - redis
     volumes:
       - .:/home/work/incubator-superset
+      - ./pyhive:/usr/local/lib/python3.6/site-packages/pyhive
       - superset-node-modules:/home/work/incubator-superset/superset/assets/node_modules
 volumes:
   postgres:
