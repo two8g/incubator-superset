@@ -670,10 +670,10 @@ class PrestoEngineSpec(BaseEngineSpec):
 
     time_grain_functions = {
         None: '{col}',
-        'PT1S': "CAST({col} AS TIMESTAMP)",
-        'PT1M': "sub_str(CAST({col} AS TIMESTAMP),0,15)",
-        'PT1H': "sub_str(CAST({col} AS TIMESTAMP),0,13)",
-        'P1D': "to_date(CAST({col} AS TIMESTAMP))",
+        'PT1S': "{col}",
+        'PT1M': "sub_str({col},0,15)",
+        'PT1H': "sub_str({col},0,13)",
+        'P1D': "to_date({col})",
         'P1W': "date_trunc('week', CAST({col} AS TIMESTAMP))",
         'P1M': "date_trunc('month', CAST({col} AS TIMESTAMP))",
         'P0.25Y': "date_trunc('quarter', CAST({col} AS TIMESTAMP))",
